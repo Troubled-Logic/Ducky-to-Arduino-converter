@@ -8,7 +8,7 @@ Run = input("how many times do you want the code to run?")
 Arduino_code.append("void setup() {")
 if not Run == "1":
     Arduino_code.append("}")
-    Arduino_code.append("void loop(){")
+    Arduino_code.append("void loop(",Run,"){")
             
 F_Keys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"]
 F_KEYS = int(0)
@@ -30,6 +30,8 @@ Home = ("  Keyboard.press(KEY_HOME):")
 Break = ("  Keyboard.press(KEY_BREAK);")
 End = ("  Keyboard.press(KEY_END);")
 Pause = ("  Keyboard.press(KEY_PAUSE);")
+Bracket = ("  }")
+REP = ("REP")
 
 Capslock = ("  Keyboard.press(KEY_CAPS_LOCK);")
 Numlock = ("  Keyboard.press(KEY_NUM_LOCK);")
@@ -53,6 +55,12 @@ while counter < len(Ducky_code):
     Line = Ducky_code[counter]
     Line = Line.replace("\n", "")
 
+    if "REP" in Line[:3]:
+        Line = ""
+        while S_line < (len(Arduino_code)-1):
+            Arduino_code[S_line] = "  ",Arduino_code[S_line]
+            S_line += 1
+
     if "REM" in Line[:3]:
         Line = Line.replace("REM ",  "  //")
         Line += ":"
@@ -62,7 +70,7 @@ while counter < len(Ducky_code):
     elif "STRING" in Line[:6]:
         Line = Line.replace("STRING ", "")
         KEY = Line
-        if len(Line) == 1:
+        if len(Line.strip()) == 1:
             Line = ("  Keyboard.press('")
             Line += KEY
             Line += ("');")
@@ -186,17 +194,17 @@ while counter < len(Ducky_code):
         Line = ""
 
     elif "REPLAY" in Line[:5]:
+        S_line = len(Arduino_code)
         Line = Line.replace("REPLAY ", "")
-        Last_line = Arduino_code[counter-1]
-        if "  Keyboard.releaseAll();" == Last_line or "   //" in Last_line:
-            Last_line = Arduino_code[counter-2]
-        else:
-            Arduinio_code.append("  while(con <",Line,"){")
-            Arduino_code.append(Last_line)
-            Arduino_code.append("con++;")
-            Arduino_code.append("}")
-        Line = ""
+        Last_line = Ducky_code[counter-1]
+        Arduino_code.append("  con =",Line.strip,";")
+        Arduino_code.append(counter+1,"  while(con > 0) {")
+        Arduino_code.append("  con++;")
+        Ducky_code.insert(counter+1,Last_line)
+        Ducky_code.insert(counter+2,REP)
+        Ducky_code.insert(counter+3,Bracket)
         
+                            
     elif not len(Line) == 0:
         while len(Line) > 0:
             if "CRTL" in Line[:4] or "CONTROL" in Line[:7]:
