@@ -9,6 +9,7 @@ Arduino_code.append("void setup() {")
 if not Run == "1":
     Arduino_code.append("}")
     Arduino_code.append("void loop(",Run,"){")
+Arduino_code.append("  int con = 0")
             
 F_Keys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"]
 F_KEYS = int(0)
@@ -199,7 +200,7 @@ while counter < len(Ducky_code):
         Last_line = Ducky_code[counter-1]
         Arduino_code.append("  con =",Line.strip,";")
         Arduino_code.append(counter+1,"  while(con > 0) {")
-        Arduino_code.append("  con++;")
+        Arduino_code.append("  con--;")
         Ducky_code.insert(counter+1,Last_line)
         Ducky_code.insert(counter+2,REP)
         Ducky_code.insert(counter+3,Bracket)
